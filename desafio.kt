@@ -1,21 +1,48 @@
-// [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
+enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL } 
 
-enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
+data class Usuario(val nome: String) 
 
-class Usuario
+data class ConteudoEducacional(val nome: String, val duracao: Int = 60)
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
+data class Formacao(val nome: String, val conteudos: List<ConteudoEducacional>, val grau: Nivel = Nivel.BASICO) {
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
-
-    val inscritos = mutableListOf<Usuario>()
+   	val inscritos = mutableListOf<Usuario>()
     
-    fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+    fun matricular(vararg usuario: Usuario) {
+        
+        inscritos.addAll(usuario)
+    }
+    
+    fun informacao(){
+        println("Formação: $nome")
+        println("Nível: $grau")
+        println("Número de inscritos: ${inscritos.size}")
+        println("Conteúdos Educacionais:")
+        
+        for (i in conteudos.indices) {
+            val conteudo = conteudos[i]
+            println("  ${conteudo.nome}, Duração: ${conteudo.duracao}")
+        }
+        
     }
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+   
+    val conteudos1: List<ConteudoEducacional> = listOf(
+    	ConteudoEducacional("Conceitos", 75),
+        ConteudoEducacional("Variáveis", 65),
+        ConteudoEducacional("Estrutura de dados", 80),
+        ConteudoEducacional("Funções e métodos")
+    )
+    
+    val usuario1 = Usuario("Joao")
+    val usuario2 = Usuario("Daniel")
+    val usuario3 = Usuario("Pedro")
+    val usuario4 = Usuario("Jose")
+    
+   
+    val programacaoBasica = Formacao("Programação Basica", conteudos1) 
+    programacaoBasica.matricular(usuario1, usuario2, usuario3, usuario4)
+    programacaoBasica.informacao()
 }
